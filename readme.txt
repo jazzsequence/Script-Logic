@@ -21,3 +21,15 @@ Extract the zip file and just drop the contents in the wp-content/plugins/ direc
 **Version 0.1**
 
 * initial commit
+
+== Frequently Asked Questions ==
+
+none yet
+
+ == Upgrade Notice ==
+
+nada
+
+== Screenshots ==
+
+none yet
