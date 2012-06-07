@@ -10,7 +10,7 @@ Add conditionals to the scripts being loaded so they only load on specified page
 
 == Description ==
 
-Script Logic aims to accomplish with enqueued scripts what Widget Logic does for widgets: apply some basic php conditionals to restrict or enqueue scripts on specific pages, but not others without modifying your theme\'s code.
+Script Logic aims to accomplish with enqueued scripts what Widget Logic does for widgets: apply some basic php conditionals to restrict or enqueue scripts on specific pages, but not others without modifying your theme's code.
 
 == Installation ==
 
