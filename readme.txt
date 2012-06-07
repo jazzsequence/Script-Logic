@@ -5,6 +5,7 @@ Tags: javascript, dequeue, deregister, developer, wp_enqueue_script, wp_register
 Requires at least: 2.8
 Tested up to: 3.3.2
 Stable tag: 0.1
+License: GPLv3
 
 Add conditionals to the scripts being loaded so they only load on specified pages and speed up your load times.
 
