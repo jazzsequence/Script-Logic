@@ -84,7 +84,7 @@ function ap_script_logic_list_scripts() {
 		'swfobject' => array(
 			'value' => 'swfobject',
 			'name' => 'SWFObject',
-			'level' = '0'
+			'level' => '0'
 			),
 		'swfupload' => array(
 			'value' => 'swfupload',
@@ -189,7 +189,7 @@ function ap_script_logic_list_scripts() {
 		'jquery-ui-button' => array(
 			'value' => 'jquery-ui-button',
 			'name' => 'jQuery UI Button',
-			'level' = '2'
+			'level' => '2'
 			),
 		'schedule' => array(
 			'value' => 'schedule',
@@ -385,49 +385,69 @@ function ap_script_logic_list_scripts() {
 	return $scripts;
 }
 
+function ap_script_logic_row() {
+	$scripts = ap_script_logic_list_scripts();
+	$options = get_option( 'script_logic_options' );
+	ob_start();
+	?>
+			<div class="span12">
+				<select name="script_logic_options[enqueue_or_dequeue]" id="enqueue_or_dequeue">
+					<option value="dequeue"><?php _e( 'Dequeue', 'script-logic' ); ?></option>
+					<option value="enqueue"><?php _e( 'Enqueue', 'script-logic' ); ?></option>
+				</select>
+				<select name="script_logic_options[script]" id="script">
+					<?php
+					$selected = $options['script'];
+					foreach ( $scripts as $script ) {
+						$value = $script['value'];
+						$name = $script['name'];
+						switch($script['level']) {
+							case '0':
+								$level = '';
+								break;
+							case '1':
+								$level = '&nbsp;&nbsp;';
+								break;
+							case '2':
+								$level = '&nbsp;&nbsp;&nbsp;&nbsp;';
+								break;
+						}
+						echo '<option value="' . $value . '" ' . selected( $selected, $value ) . '>' . $level . $name . '</option>';
+					}
+					?>
+				</select>
+				<?php _e( 'on', 'script-logic' ); ?> <?php wp_dropdown_pages(); ?>
+			</div>
+	<?php
+	$row = ob_get_contents();
+	ob_end_clean();
+	echo $row;
+}
+
+function ap_script_logic_row_other() {
+	/*
+		a row that allows you to input a specific script goes here
+	*/
+}
 
 function ap_script_logic_page() {
 
 	// HTML markup goes here ?>
 		<script type="text/javascript">
-			jQuery(document).ready(function($) {
-
-				var nextUrlId = 2;
-				var row = "				<div class=\"span12\">
-					<select name=\"enqueue_or_dequeue\" id=\"enqueue_or_dequeue\">
-						<option value=\"dequeue\"><?php _e( 'Dequeue', 'script-logic' ); ?></option>
-						<option value=\"enqueue\"><?php _e( 'Enqueue', 'script-logic' ); ?></option>
-					</select>
-					<select name=\"script\" id=\"script\">
-						<option class=\"level-0\" value=\"scriptaculous\"><?php _e( 'Scriptaculous', 'script-logic' ); ?></option>
-							<option class=\"level-1\" value=\"scriptaculous-root\">&nbsp;&nbsp;&nbsp;<?php _e( 'Scriptaculous Root', 'script-logic' ); ?></option>
-							<option class=\"level-1\" value=\"scriptaculous-builder\">&nbsp;&nbsp;&nbsp;<?php _e( 'Scriptaculous Builder', 'script-logic' ); ?></option>
-							<option class=\"level-1\" value=\"scriptaculous-dragdrop\">&nbsp;&nbsp;&nbsp;<?php _e( 'Scriptaculous Drag & Drop', 'script-logic' ); ?></option>
-							<option class=\"level-1\" value=\"scriptaculous-effects\">&nbsp;&nbsp;&nbsp;<?php _e( 'Scriptaculous Effects', 'script-logic' ); ?></option>
-							<option class=\"level-1\" value=\"scriptaculous-slider\">&nbsp;&nbsp;&nbsp;<?php _e( 'Scriptaculous Slider', 'script-logic' ); ?></option>
-							<option class=\"level-1\" value=\"scriptaculous-sound\">&nbsp;&nbsp;&nbsp;<?php _e( 'Scriptaculous Sound', 'script-logic' ); ?></option>
-							<option class=\"level-1\" value=\"scriptaculous-controls\">&nbsp;&nbsp;&nbsp;<?php _e( 'Scriptaculous Controls', 'script-logic' ); ?></option>
-					</select>
-					<?php _e( 'on', 'script-logic' ); ?> <?php wp_dropdown_pages(); ?>
-				</div>";
-				$('#add-row').click(function(){
-
-					//Create and add a paragraph
-
-					$('form#script-logic').attr('id', 'row' + nextUrlId)
-
-							  .text(row)
-
-							  .appendTo('#row' + nextUrlId);
-
-
-					//Iterate id number
-
-					nextUrlId++;
-
-				});
-
-			});
+			var counter = 0;
+			var numBoxes = 19;
+			function toggle(showHideDiv) {
+			       var ele = document.getElementById(showHideDiv + counter);
+			       if(ele.style.display == "block") {
+			              ele.style.display = "none";
+			       }
+			       else {
+			              ele.style.display = "block";
+			       }
+			       if(counter == numBoxes) {
+			                document.getElementById("toggleButton").style.display = "none";
+			       }
+			}
 		</script>
 
 	<div class="wrap">
@@ -436,34 +456,75 @@ function ap_script_logic_page() {
 		</div>
 		<h2><?php _e( 'Script Logic', 'script-logic' ); ?></h2>
 		<form id="script-logic" action="somePage.php" method="get">
-			<div class="row-fluid" id="row">
-				<div class="span12">
-					<select name="enqueue_or_dequeue" id="enqueue_or_dequeue">
-						<option value="dequeue"><?php _e( 'Dequeue', 'script-logic' ); ?></option>
-						<option value="enqueue"><?php _e( 'Enqueue', 'script-logic' ); ?></option>
-					</select>
-					<select name="script" id="script">
-						<option class="level-0" value="scriptaculous"><?php _e( 'Scriptaculous', 'script-logic' ); ?></option>
-							<option class="level-1" value="scriptaculous-root">&nbsp;&nbsp;&nbsp;<?php _e( 'Scriptaculous Root', 'script-logic' ); ?></option>
-							<option class="level-1" value="scriptaculous-builder">&nbsp;&nbsp;&nbsp;<?php _e( 'Scriptaculous Builder', 'script-logic' ); ?></option>
-							<option class="level-1" value="scriptaculous-dragdrop">&nbsp;&nbsp;&nbsp;<?php _e( 'Scriptaculous Drag & Drop', 'script-logic' ); ?></option>
-							<option class="level-1" value="scriptaculous-effects">&nbsp;&nbsp;&nbsp;<?php _e( 'Scriptaculous Effects', 'script-logic' ); ?></option>
-							<option class="level-1" value="scriptaculous-slider">&nbsp;&nbsp;&nbsp;<?php _e( 'Scriptaculous Slider', 'script-logic' ); ?></option>
-							<option class="level-1" value="scriptaculous-sound">&nbsp;&nbsp;&nbsp;<?php _e( 'Scriptaculous Sound', 'script-logic' ); ?></option>
-							<option class="level-1" value="scriptaculous-controls">&nbsp;&nbsp;&nbsp;<?php _e( 'Scriptaculous Controls', 'script-logic' ); ?></option>
-					</select>
-					<?php _e( 'on', 'script-logic' ); ?> <?php wp_dropdown_pages(); ?>
-				</div>
-
-					<p id="nameParagraph">Name: <input type="text" id="name" /></p>
-
-					<p id="urlParagraph1">URL: <input type="text" id="url1" /></p>
-
-				</div>
-
-				<p><input type="submit" id="submit" /> or <a href="#" id="add-row">Add another URL</a></p>
+			<div class="row-fluid" id="row1">
+				<?php ap_script_logic_row(); ?>
 			</div>
+			<div class="row-fluid first" id="row">
+				<?php ap_script_logic_row(); ?>
+			</div>
+			<div class="row-fluid" id="row1">
+				<?php ap_script_logic_row(); ?>
+			</div>
+			<div class="row-fluid" id="row2">
+				<?php ap_script_logic_row(); ?>
+			</div>
+			<div class="row-fluid" id="row3">
+				<?php ap_script_logic_row(); ?>
+			</div>
+			<div class="row-fluid" id="row4">
+				<?php ap_script_logic_row(); ?>
+			</div>
+			<div class="row-fluid" id="row5">
+				<?php ap_script_logic_row(); ?>
+			</div>
+			<div class="row-fluid" id="row6">
+				<?php ap_script_logic_row(); ?>
+			</div>
+			<div class="row-fluid" id="row7">
+				<?php ap_script_logic_row(); ?>
+			</div>
+			<div class="row-fluid" id="row8">
+				<?php ap_script_logic_row(); ?>
+			</div>
+			<div class="row-fluid" id="row9">
+				<?php ap_script_logic_row(); ?>
+			</div>
+			<div class="row-fluid" id="row10">
+				<?php ap_script_logic_row(); ?>
+			</div>
+			<div class="row-fluid" id="row11">
+				<?php ap_script_logic_row(); ?>
+			</div>
+			<div class="row-fluid" id="row12">
+				<?php ap_script_logic_row(); ?>
+			</div>
+			<div class="row-fluid" id="row13">
+				<?php ap_script_logic_row(); ?>
+			</div>
+			<div class="row-fluid" id="row14">
+				<?php ap_script_logic_row(); ?>
+			</div>
+			<div class="row-fluid" id="row15">
+				<?php ap_script_logic_row(); ?>
+			</div>
+			<div class="row-fluid" id="row16">
+				<?php ap_script_logic_row(); ?>
+			</div>
+			<div class="row-fluid" id="row17">
+				<?php ap_script_logic_row(); ?>
+			</div>
+			<div class="row-fluid" id="row18">
+				<?php ap_script_logic_row(); ?>
+			</div>
+			<div class="row-fluid" id="row19">
+				<?php ap_script_logic_row(); ?>
+			</div>
+			<div class="row-fluid other">
+				<?php ap_script_logic_row_other(); ?>
+			</div>
+
 		</form>
+		<button id="toggleButton" onclick="counter++; toggle('row');">Add another script</button>
 	</div>
 <?php
 }
