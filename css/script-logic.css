@@ -1,5 +1,8 @@
 #icon-script-logic.icon32 { background-image: url(events_icon_32.png); background-repeat: no-repeat; }
 
+.row-fluid { display: none; }
+.first { display: block; }
+
 /* some bootstrap css */
   .row-fluid {
     width: 100%;
