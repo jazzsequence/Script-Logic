@@ -10,6 +10,9 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 */
 
+$counter = 0;
+$counter_other = 1;
+
 /**
  * add page
  * @author Chris Reynolds
@@ -385,17 +388,18 @@ function ap_script_logic_list_scripts() {
 	return $scripts;
 }
 
-function ap_script_logic_row() {
+function ap_script_logic_row($counter) {
+	global $counter;
 	$scripts = ap_script_logic_list_scripts();
 	$options = get_option( 'script_logic_options' );
 	ob_start();
 	?>
 			<div class="span12">
-				<select name="script_logic_options[enqueue_or_dequeue]" id="enqueue_or_dequeue">
-					<option value="dequeue"><?php _e( 'Dequeue', 'script-logic' ); ?></option>
-					<option value="enqueue"><?php _e( 'Enqueue', 'script-logic' ); ?></option>
+				<select name="script_logic_options[enqueue_or_dequeue<?php echo $counter; ?>]" id="enqueue_or_dequeue">
+					<option value="0"><?php _e( 'Dequeue', 'script-logic' ); ?></option>
+					<option value="1"><?php _e( 'Enqueue', 'script-logic' ); ?></option>
 				</select>
-				<select name="script_logic_options[script]" id="script">
+				<select name="script_logic_options[script<?php echo $counter; ?>]" id="script">
 					<?php
 					$selected = $options['script'];
 					foreach ( $scripts as $script ) {
@@ -424,14 +428,25 @@ function ap_script_logic_row() {
 	echo $row;
 }
 
-function ap_script_logic_row_other() {
-	/*
-		a row that allows you to input a specific script goes here
-	*/
+function ap_script_logic_row_other($counter_other) {
+	global $counter_other;
+	$options = get_option( 'script_logic_options' );
+	ob_start();
+	?>
+		<div class="span12">
+			<select name="script_logic_options[enqueue_or_dequeue-other<?php echo $counter_other; ?>" id="enqueue_or_dequeue">
+				<option value="0"><?php _e( 'Dequeue', 'script-logic' ); ?></option>
+				<option value="1"><?php _e( 'Enqueue', 'script-logic' ); ?></option>
+			</select>
+			<?php echo '<input class="other-script" type="text" name="script_logic_options[script-other'.$counter_other.']" id="script-other" value="'.esc_attr_e($options['script_logic_options[script-other'.$counter_other]).'" />'; ?>
+			<?php _e( 'on', 'script-logic' ); ?>
+			<?php echo '<input class="other-page" type="text" name="script_logic_options[script-other-page'.$counter_other.']" id="script-other-page" value="'. esc_attr_e($options['script_logic_options[script-other-page'.$counter_other]).'" />'; ?>
+		</div>
+	<?php
 }
 
 function ap_script_logic_page() {
-
+	global $counter, $counter_other;
 	// HTML markup goes here ?>
 		<script type="text/javascript">
 			var counter = 0;
@@ -456,75 +471,117 @@ function ap_script_logic_page() {
 		</div>
 		<h2><?php _e( 'Script Logic', 'script-logic' ); ?></h2>
 		<form id="script-logic" action="somePage.php" method="get">
-			<div class="row-fluid" id="row1">
-				<?php ap_script_logic_row(); ?>
-			</div>
 			<div class="row-fluid first" id="row">
 				<?php ap_script_logic_row(); ?>
+				<?php $counter++; ?>
 			</div>
 			<div class="row-fluid" id="row1">
 				<?php ap_script_logic_row(); ?>
+				<?php $counter++; ?>
 			</div>
 			<div class="row-fluid" id="row2">
 				<?php ap_script_logic_row(); ?>
+				<?php $counter++; ?>
 			</div>
 			<div class="row-fluid" id="row3">
 				<?php ap_script_logic_row(); ?>
+				<?php $counter++; ?>
 			</div>
 			<div class="row-fluid" id="row4">
 				<?php ap_script_logic_row(); ?>
+				<?php $counter++; ?>
 			</div>
 			<div class="row-fluid" id="row5">
 				<?php ap_script_logic_row(); ?>
+				<?php $counter++; ?>
 			</div>
 			<div class="row-fluid" id="row6">
 				<?php ap_script_logic_row(); ?>
+				<?php $counter++; ?>
 			</div>
 			<div class="row-fluid" id="row7">
 				<?php ap_script_logic_row(); ?>
+				<?php $counter++; ?>
 			</div>
 			<div class="row-fluid" id="row8">
 				<?php ap_script_logic_row(); ?>
+				<?php $counter++; ?>
 			</div>
 			<div class="row-fluid" id="row9">
 				<?php ap_script_logic_row(); ?>
+				<?php $counter++; ?>
 			</div>
 			<div class="row-fluid" id="row10">
 				<?php ap_script_logic_row(); ?>
+				<?php $counter++; ?>
 			</div>
 			<div class="row-fluid" id="row11">
 				<?php ap_script_logic_row(); ?>
+				<?php $counter++; ?>
 			</div>
 			<div class="row-fluid" id="row12">
 				<?php ap_script_logic_row(); ?>
+				<?php $counter++; ?>
 			</div>
 			<div class="row-fluid" id="row13">
 				<?php ap_script_logic_row(); ?>
+				<?php $counter++; ?>
 			</div>
 			<div class="row-fluid" id="row14">
 				<?php ap_script_logic_row(); ?>
+				<?php $counter++; ?>
 			</div>
 			<div class="row-fluid" id="row15">
 				<?php ap_script_logic_row(); ?>
+				<?php $counter++; ?>
 			</div>
 			<div class="row-fluid" id="row16">
 				<?php ap_script_logic_row(); ?>
+				<?php $counter++; ?>
 			</div>
 			<div class="row-fluid" id="row17">
 				<?php ap_script_logic_row(); ?>
+				<?php $counter++; ?>
 			</div>
 			<div class="row-fluid" id="row18">
 				<?php ap_script_logic_row(); ?>
+				<?php $counter++; ?>
 			</div>
 			<div class="row-fluid" id="row19">
 				<?php ap_script_logic_row(); ?>
+				<?php $counter++; ?>
 			</div>
-			<div class="row-fluid other">
+			<div class="row-fluid other" id="other-row1">
 				<?php ap_script_logic_row_other(); ?>
+				<?php $counter_other++; ?>
 			</div>
-
+			<div class="row-fluid other" id="other-row2">
+				<?php ap_script_logic_row_other(); ?>
+				<?php $counter_other++; ?>
+			</div>
+			<div class="row-fluid other" id="other-row3">
+				<?php ap_script_logic_row_other(); ?>
+				<?php $counter_other++; ?>
+			</div>
+			<div class="row-fluid other" id="other-row4">
+				<?php ap_script_logic_row_other(); ?>
+				<?php $counter_other++; ?>
+			</div>
+			<div class="row-fluid other" id="other-row5">
+				<?php ap_script_logic_row_other(); ?>
+				<?php $counter_other++; ?>
+			</div>
 		</form>
-		<button id="toggleButton" onclick="counter++; toggle('row');">Add another script</button>
+		<div class="span12">
+			<div class="row-fluid buttons">
+				<button class="button-secondary" id="toggleButton" onclick="counter++; toggle('row');">Add a WordPress default script</button>
+				<button class="button-secondary" id="toggleButton" onclick="counter++; toggle('other-row');">Add a custom script</button>
+				<input type="submit" class="button-primary" />
+			</div>
+			<div class="span12 alert alert-info">
+				<strong><?php _e( 'Important!', 'script-logic' ); ?></strong> <?php _e( 'Enqueued scripts must already be registered in the theme or a plugin via <code>wp_register_script</code>', 'script-logic' ); ?> <a href="http://codex.wordpress.org/Function_Reference/wp_register_script" target="_blank"><?php _e( 'More information', 'script-logic' ); ?></a>
+			</div>
+		</div>
 	</div>
 <?php
 }
